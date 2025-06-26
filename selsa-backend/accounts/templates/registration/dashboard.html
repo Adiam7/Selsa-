@@ -1,0 +1,12 @@
+{% extends 'includes/base_site.html' %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+  {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
+  {% else %}
+    <p>Welcome, Guest!</p>
+    <a href="{% url 'login' %}"><button>Login</button></a>
+  {% endif %}
+{% endblock content %}

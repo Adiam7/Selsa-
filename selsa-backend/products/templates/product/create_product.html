@@ -1,0 +1,33 @@
+{% extends "includes/base_site.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 style="margin-bottom: 20px;">Create New Product</h2>
+    <form method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-lg bg-light">
+        {% csrf_token %}
+        
+        <!-- Render Form Fields -->
+        {{ form.as_p }}
+    
+        <!-- Multi-Image Upload -->
+        <div class="mb-3 ins-control__text" style="margin-bottom: 20px;">
+            <label for="id_images" class="form-label">Product Images</label>
+            <input type="file" name="images" id="id_images" multiple class="form-control">
+        </div>
+    
+        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <div class="ins-button-wrap ins-tile__button" preview-mode="false" style="margin-bottom: 50px;">
+            <a tabindex="0" role="button" type="submit" aria-label="Submit" class="ins-control ins-control--button ins-control--outline ins-control--medium ins-control--pill">
+                <div class="ins-control__button">
+                    <div class="ins-control__wrap">
+                        <div class="ins-control__text">Submit</div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+        </div>
+    </form>
+</div>
+
+{% endblock %}

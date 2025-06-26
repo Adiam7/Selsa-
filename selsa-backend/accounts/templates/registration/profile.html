@@ -1,0 +1,135 @@
+<!-- /templates/pages/profile.html -->
+
+<!-- {% extends "includes/base_site.html" %} -->
+{% load static %}
+{% block content %}
+<div role="region" class="ins-tile ins-tile--cover ins-tile--fullscreen-bottom-right ins-tile--adaptive" id="tile-cover-gBoQjH">
+    <div>
+        <!--[-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--]-->
+    </div>
+    <style>
+    #tile-call-to-action-selsa {
+        --background-gradient-color-from-a: 0;
+        --background-gradient-color-to-a: 0;
+        --background-solid-color-a: 1;
+        --background-solid-color-b: 1;
+        --background-solid-color-h: 21.99999999999999;
+        --background-solid-color-l: 100%;
+        --background-solid-color-s: 0%;
+        --button-color-a: 1;
+        --button-color-b: 0.5137254901960784;
+        --button-color-h: 9.193548387096776;
+        --button-color-l: 51.37254901960784%;
+        --button-color-s: 100%;
+        --description-font-size: 18px;
+        --description-font-style: normal;
+        --description-font-weight: 400;
+        --description-text-color-a: 1;
+        --description-text-color-b: 0.09803921569;
+        --description-text-color-h: 0;
+        --description-text-color-l: 9.803921569%;
+        --description-text-color-s: 0%;
+        --image-aspect-ratio: 100%;
+        --title-font-size: 64px;
+        --title-font-style: normal;
+        --title-font-weight: 700;
+        --title-text-color-a: 1;
+        --title-text-color-b: 0.09803921569;
+        --title-text-color-h: 0;
+        --title-text-color-l: 9.803921569%;
+        --title-text-color-s: 0%;
+    }
+    </style>
+    <div class="ins-tile__wrap ins-tile__animated " >
+      <div class="profile_container" >
+        <div class="profile-image " >
+            <div style="background-color:rgba(0, 0, 0, 0);" class="ins-tile__picture" >
+                <picture class="ins-picture ins-picture--cover">
+                    <!--
+                    <source srcset="{% static 'images/selsa.png' %}, {% static 'images/selsa.png' %} 2x" media="(min-width: 500px)">
+                    <source srcset="{% static 'images/selsa.png' %}, {% static 'images/selsa.png' %} 2x">                    
+                    
+                    <img src="{% static 'images/selsa.png' %}" media="(min-width: 500px) alt="Selsa Lego image">
+                    -->
+                </picture>
+                <!---->
+            </div>
+        </div>
+        <div class="ins-tile__body" class="profile-info">
+            <div class="ins-tile__body-content">
+                <h1 class="ins-tile__title"> Account</h1>
+                <div role="heading" aria-level="2" class="ins-tile__format">
+                    Welcome to your account page. Here you can view and update your account information.
+                    <h3>Welcome, {{ user.username }}!</h3>
+                        <p></p><strong>Username:</strong> {{ user.username }}</p>
+                        <p></p><strong>Email:</strong> {{ user.email }}</p>
+
+                        <p></p><a href="{% url 'password_change' %}">Change Password</a></p>
+                        <p></p><a href="{% url 'logout' %}">Logout</a></p>
+
+                        <p></p><a href="{% url 'home' %}">Back to Home</a></p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <style>
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Adds space between image and profile info */
+            padding: 20px;
+        }
+    
+        .profile-image img {
+            width: 150px;  /* Adjust the size of the profile image */
+            height: 150px;
+            border-radius: 100%; /* Makes it a circular profile picture */
+            object-fit: cover;
+            border: 3px solid #ccc;
+        }
+    
+        .profile-info {
+            flex-grow: 1;
+        }
+    
+        .profile-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    
+        .profile-info p {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+    
+        .profile-info a {
+            display: inline-block;
+            margin-top: 5px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    
+        .profile-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!--[-->
+    <!--]-->
+    <!--[-->
+    <!--]-->
+    <!--[-->
+    <!--]-->
+</div>
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Add Values for Option: {{ option.name }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <div class="ins-button-wrap ins-tile__button" preview-mode="false" style="margin-bottom: 50px;">
+            <a tabindex="0" role="button" type="submit" aria-label="Submit" class="ins-control ins-control--button ins-control--outline ins-control--medium ins-control--pill">
+                <div class="ins-control__button">
+                    <div class="ins-control__wrap">
+                        <div class="ins-control__text">Save</div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+        </div>
+    </form>
+</div>
+{% endblock %}

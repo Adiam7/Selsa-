@@ -1,0 +1,100 @@
+{% extends "includes/base_site.html" %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+<section class="checkout-container">
+
+    <h1>Checkout</h1>
+
+    <!-- Cart Items List -->
+    <ul class="checkout-items">
+        {% for item in cart_items %}
+            <li class="checkout-item">
+                <div class="item-image">
+                    {% if item.image %}
+                        <img src="{{ item.image }}" alt="{{ item.name }}" style="width: 80px; height: 80px; object-fit: cover;">
+                    {% else %}
+                        <div class="no-image">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="item-details">
+                    <p><strong>{{ item.name }}</strong></p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price per unit: ${{ item.price }}</p>
+                    {% if item.attributes %}
+                        <ul class="item-attributes">
+                            {% for key, value in item.attributes.items %}
+                                <li>{{ key|title }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </li>
+        {% empty %}
+            <li>Your cart is empty.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <!-- Cart Summary -->
+    <div class="checkout-summary">
+
+        <p><strong>Subtotal:</strong> ${{ subtotal|floatformat:2 }}</p>
+
+        {% if shipping_price %}
+            <p><strong>Shipping:</strong> ${{ shipping_price|floatformat:2 }}</p>
+        {% else %}
+            <p><strong>Shipping:</strong> Not selected</p>
+        {% endif %}
+
+        {% if discount %}
+            <p><strong>Discount:</strong> -${{ discount|floatformat:2 }}</p>
+        {% endif %}
+
+        <hr>
+        <p><strong>Total:</strong> ${{ total_price|floatformat:2 }}</p>
+
+    </div>
+
+    <br>
+
+    <!-- Apply Coupon Form -->
+    <div class="checkout-coupon">
+        <h3>Apply Coupon</h3>
+        <form method="post" action="{% url 'apply_coupon' %}">
+            {% csrf_token %}
+            <input type="text" name="coupon_code" placeholder="Enter coupon code" required>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+
+    <br>
+
+    <!-- Select Shipping Option -->
+    <div class="checkout-shipping">
+        <h3>Select Shipping</h3>
+        <form method="post" action="{% url 'update_shipping' %}">
+            {% csrf_token %}
+            <select name="shipping_option" required>
+                {% for option in shipping_options %}
+                    <option value="{{ option.id }}">{{ option.name }} - ${{ option.price }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Update Shipping</button>
+        </form>
+    </div>
+
+    <br><br>
+
+    <!-- Proceed to Payment Button -->
+    <div class="checkout-final">
+        <a href="#" class="btn btn-success">Proceed to Payment</a>
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<!-- Sidebar Navigation -->
+<div class="sidebar" align="left">
+    <h3> Manage Products </h3>
+    <ul>
+        <li><a href="{% url 'product_create' %}">➕ Add Product</a></li>
+        <li><a href="{% url 'product_list' %}">📋 View Products</a></li>
+        <li><a href="{% url 'product_edit' slug='sample-slug' %}">✏ Edit Product</a></li>
+        <li><a href="{% url 'product_delete' slug='sample-slug' %}">❌ Delete Product</a></li>
+    </ul>
+
+    <h3> Manage Categories </h3>
+    <ul>
+        <li><a href="{% url 'category_create' %}">➕ Add Category</a></li>
+        <li><a href="{% url 'category_list' %}">📋 View Categories</a></li>
+        <li><a href="{% url 'category_update' slug='sample-slug' %}">✏ Edit Category</a></li>
+        <li><a href="{% url 'category_delete' slug='sample-slug' %}">❌ Delete Category</a></li>
+    </ul>
+   </div>

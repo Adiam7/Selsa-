@@ -1,0 +1,136 @@
+{% extends "includes/base_site.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ product.name }} Details{% endblock %}
+
+{% block content %}
+
+<!-- Product Detail Container -->
+<section class="product-detail-container">
+    <div class="product-images">
+        <!-- Main Image -->
+        <div class="main-image">
+            {% if product.images.all %}
+                {% with product.images.all|first as first_image %}
+                    <img id="main-image" src="{{ first_image.image.url }}" 
+                    alt="Main Product Image"
+                    >
+                {% endwith %}
+            {% else %}
+                <p>No images available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Image Gallery with dynamic thumbnails -->
+        <div class="image-gallery">
+            <div class="gallery-thumbs" id="gallery-thumbs">
+                {% for image in product.attribute_images.all %}
+                    <img src="{{ image.image.url }}" 
+                        alt="{{ image.alt_text }}" 
+                        class="gallery-thumb"
+                        data-option-type="{{ image.option_type.name|lower }}"
+                        data-option-value="{{ image.option_value.value|lower }}"
+                        onclick="changeImage('{{ image.image.url }}')">
+                {% empty %}
+                    <p>No attribute images available.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Information -->
+    <div class="product_info">
+        <h1 class="product-title">{{ product.name }}</h1>
+        <p class="product-price">${{ product.price }}</p>
+
+        <!-- Dynamic Product Options Form -->
+        <form method="post" action="{% url 'add_to_cart' product.slug %}">
+            {% csrf_token %}
+            <!-- Hidden field to indicate that this is the option form -->
+            <input type="hidden" name="form_type" value="option">
+            <!-- Render dynamic option fields -->
+            {{ option_form|crispy }}
+            
+
+            <!-- Dynamic Product Options Types Form -->
+            <!-- Product Options Section -->
+            <div class="product-option" id="se-options">
+                {% for attribute_name, values in attributes.items %}
+                    <label for="{{ attribute_name|lower }}">{{ attribute_name }}:</label>
+                    <select id="{{ attribute_name|lower }}" name="{{ attribute_name|lower }}">
+                        <option value="">-- Select {{ attribute_name }} --</option>
+                        {% for value in values %}
+                            <option value="{{ value }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                {% endfor %}
+            </div>
+
+            
+            <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+            $(document).ready(function() {
+                function updateProductImages() {
+                    let productId = "{{ product.pk }}";
+                    let selectedAttributes = {};
+
+                    $("select").each(function() {
+                        let attributeName = $(this).attr("id");
+                        let selectedValue = $(this).val();
+                        if (selectedValue) {
+                            selectedAttributes[attributeName] = selectedValue;
+                        }
+                    });
+
+                    $.ajax({
+                        url: `/api/get-product-images/${productId}/`,
+                        method: "GET",
+                        data: selectedAttributes,
+                        success: function(response) {
+                            let imageContainer = $("#product-images");
+                            imageContainer.empty();
+
+                            if (response.images.length > 0) {
+                                response.images.forEach(img => {
+                                    imageContainer.append(`<img src="${img.url}" alt="Product Image" style="width: 250px; height: 250px; object-fit: cover;">`);
+                                });
+                            } else {
+                                imageContainer.append("<p>No images available for this selection.</p>");
+                            }
+                        }
+                    });
+                }
+
+                // Update images when any attribute is selected
+                $("select").change(updateProductImages);
+            });
+            </script> -->
+
+            <!-- Additional Quantity Field -->
+            <div class="product-option">
+                <label for="quantity">Quantity: </label>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}">
+            </div>
+
+            <!-- Stock Status Label -->
+            <div class="stock-status {% if product.stock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                {% if product.stock > 0 %}
+                    In Stock ({{ product.stock }} available)
+                {% else %}
+                    Out of Stock
+                {% endif %}
+            </div>
+
+            <!-- Add to Cart Button -->
+            <button type="submit" class="add-to-cart-btn btn btn-primary">Add to Cart</button>
+        </form>
+        
+        <br>
+        <!-- Product Description -->
+        <div class="product-description description-box" >
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

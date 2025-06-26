@@ -1,0 +1,45 @@
+{% extends "includes/base_site.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 style="margin-bottom: 20px;">Add {{ product.name }} Product Option</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div>
+            <label for="id_option_name">Option Name:</label>
+            {{ form.option_name }}
+        </div>
+        <div>
+            <label for="id_option_type">Option Type:</label>
+            {{ form.option_type }}
+        </div>
+        <div id="formset-container">
+            {{ formset.management_form }}  <!-- Django's management form to track form count -->
+
+            {% for form in formset %}
+                <div class="form-row formset-item">
+                    {{ form.as_p }}
+                    <button type="button" class="remove-form">Remove</button>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <button type="button" id="add-form" style="margin-bottom: 20px;">+ Add Option Value</button>
+        <div class="ins-button-wrap ins-tile__button" preview-mode="false" style="margin-bottom: 50px;">
+            <a tabindex="0" role="button" href="{% url 'category_list' %}" target="_self" aria-label="Submit" class="ins-control ins-control--button ins-control--outline ins-control--medium ins-control--pill">
+                <div class="ins-control__button">
+                    <div class="ins-control__wrap">
+                        <div class="ins-control__text">Submit</div>
+                    </div>
+                </div>
+            </a>
+            <!---->
+        </div>
+    </form>
+    
+</div>
+{% endblock %}
+

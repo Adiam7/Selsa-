@@ -1,0 +1,76 @@
+
+<!-- /templates/pages/Register.html -->
+
+<!-- {% extends "includes/base_site.html" %} -->
+{% load static %}
+{% block title %} Registering{% endblock %}
+
+{% block content %}
+<div role="region" aria-label="Register" class="ins-tile ins-tile--cta ins-tile--story-right ins-tile--has-image ins-tile--same-prev-background" id="tile-call-to-action-NrWbGx">
+    <div>
+        <!--[-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--[-->
+        <!---->
+        <!--]-->
+        <!--]-->
+    </div>
+    <style>
+    #tile-call-to-action-NrWbGx {
+        --background-gradient-color-from-a: 0;
+        --background-gradient-color-to-a: 0;
+        --background-solid-color-a: 1;
+        --background-solid-color-b: 1;
+        --background-solid-color-h: 21.99999999999999;
+        --background-solid-color-l: 100%;
+        --background-solid-color-s: 0%;
+        --button-color:black;
+        --description-font-size: 18px;
+        --description-font-style: normal;
+        --description-font-weight: 400;
+        --description-text-color-a: 1;
+        --description-text-color-b: 0.09803921569;
+        --description-text-color-h: 0;
+        --description-text-color-l: 9.803921569%;
+        --description-text-color-s: 0%;
+        --image-aspect-ratio: 100%;
+        --title-font-size: 64px;
+        --title-font-style: normal;
+        --title-font-weight: 700;
+        --title-text-color-a: 1;
+        --title-text-color-b: 0.09803921569;
+        --title-text-color-h: 0;
+        --title-text-color-l: 9.803921569%;
+        --title-text-color-s: 0%;
+    }
+    </style>
+    <div class="ins-tile__wrap ins-tile__animated ">
+        <div class="ins-tile__body">
+            <div class="ins-tile__body-inner" class="text">
+                <h2 class="ins-tile__title">Register</h2>
+                <br>
+                    <form method="post"> 
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="ins-button-wrap ins-tile__button" preview-mode="false">
+                            <a tabindex="0" role="button" href="register/" target="_self" aria-label="Register now" class="ins-control ins-control--button ins-control--outline ins-control--medium ins-control--pill">
+                                <div class="ins-control__button">
+                                    <div class="ins-control__wrap">
+                                        <div class="ins-control__text">Register</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <!---->
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
