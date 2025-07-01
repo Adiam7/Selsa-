@@ -44,10 +44,13 @@ class Cart(models.Model):
         """
         Adds or updates an item in the cart.
         """
-        cart_item, created = CartItem.objects.get_or_create(
-            cart=self, 
-            product_variant=product_variant
-        )
+        try:
+            cart_item, created = CartItem.objects.get_or_create(
+                cart_id=self.id,
+                product_variant_id=product_variant.id
+            )
+        except Exception as e:
+            return {'error': str(e)}
 
         if not created:
             cart_item.quantity += quantity

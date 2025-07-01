@@ -9,9 +9,9 @@ from rest_framework.decorators import action
 from django.utils import timezone
 from orders.models import Order, OrderItem
 from orders.serializers import OrderSerializer
-from .models import Cart
-from .serializers import CartSerializer
 from .utils import process_payment
+from rest_framework.permissions import IsAuthenticated
+
 
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
@@ -89,6 +89,12 @@ class CartViewSet(viewsets.ModelViewSet):
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated], url_path='my')
+    def my(self, request):
+        user = request.user
+        cart, created = Cart.objects.get_or_create(user=user, status='open')
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data)
 
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
@@ -99,22 +105,41 @@ class CartItemViewSet(viewsets.ModelViewSet):
         Adds an item to the cart, updating quantity if the product already exists.
         """
         cart_id = request.data.get('cart')
+        if not cart_id:
+            return Response({'error': 'cart is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         variant_id = request.data.get('product_variant')
-        quantity = int(request.data.get('quantity', 1))
+        if not variant_id:
+            return Response({'error': 'product_variant is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            quantity = int(request.data.get('quantity', 1))
+        except ValueError:
+            return Response({'error': 'quantity must be an integer'}, status=status.HTTP_400_BAD_REQUEST)
+
         option_values = request.data.get('option_values', [])
+
+        # Validate option values
+        try:
+            option_value_objs = ProductOptionValue.objects.filter(id__in=option_values)
+        except Exception:
+            return Response({'error': 'Invalid option values'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Get or create the cart item
         cart_item, created = CartItem.objects.get_or_create(
             cart_id=cart_id,
             product_variant_id=variant_id
         )
-        
-        # Update quantity if exists
+
         if not created:
             cart_item.quantity += quantity
         else:
-            cart_item.option_values.set(ProductOptionValue.objects.filter(id__in=option_values))
+            cart_item.quantity = quantity  # Set initial quantity
 
         cart_item.save()
+
+        # Always update option values
+        cart_item.option_values.set(option_value_objs)
+
         serializer = self.get_serializer(cart_item)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

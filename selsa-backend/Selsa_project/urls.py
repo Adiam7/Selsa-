@@ -13,7 +13,7 @@ urlpatterns = [
     # CHANGED: Now all app APIs are nested under /api/
     path('api/categories/', include('category.urls')),  
     path('api/products/', include('products.urls')),     
-    path('api/cart/', include('cart.urls')),
+    path('api/', include('cart.urls')),
     path('api/orders/', include('orders.urls')),
     path('', include('printful_sync.urls')),  # New Printful sync endpoint
     
