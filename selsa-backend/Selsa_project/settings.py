@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'Selsa_app',
-    'accounts',
+    'accounts.apps.authConfig',
     'django_otp',
     'django_otp.plugins.otp_static',
     'django_otp.plugins.otp_totp',
@@ -80,6 +80,15 @@ INSTALLED_APPS = [
 
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@yourdomain.com")
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
 
 GRAPH_MODELS = {
     'all_applications': True,
@@ -187,11 +196,12 @@ DATABASES = {
 # Authentication Backends
 
 AUTHENTICATION_BACKENDS = (
+    'accounts.backends.EmailBackend',  # <-- your custom backend
+    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'django_cas_ng.backends.CASBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    #'two_factor.auth_backends.TwoFactorBackend',
+    # 'two_factor.auth_backends.TwoFactorBackend',
     
 )
 # Google OAuth2 Credentials

@@ -19,12 +19,11 @@ urlpatterns = [
     
     # Other non-API views
     path('', include('pages.urls')),  
-    path('', include('accounts.urls')),  
-    path('auth/', include('social_django.urls', namespace='social')),  
-    path('auth/', include('django.contrib.auth.urls')),
-
-    path('accounts/templates/registration/login/', cas_views.LoginView.as_view(), name='cas_login'),
-    path('accounts/templates/registration/logout/', cas_views.LogoutView.as_view(), name='cas_logout'),
+    path('api/', include('accounts.urls')),  
+    path('accounts/', include('social_django.urls', namespace='social')),  
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('auth/templates/registration/login/', cas_views.LoginView.as_view(), name='cas_login'),
+    path('auth/templates/registration/logout/', cas_views.LogoutView.as_view(), name='cas_logout'),
     path('', include(tf_urls)),
 ]
 

@@ -1,7 +1,7 @@
 # orders/models.py
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from products.models import ProductVariant
 from django.utils import timezone
 
@@ -16,7 +16,7 @@ class Order(models.Model):
         ('refunded', 'Refunded'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
